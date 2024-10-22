@@ -273,12 +273,7 @@
             }
         });
         json["typeCode"] = typeCode;
-        if (typeCode.length == 0) {
-            alert("type code not empty");
-        }
-        else {
-            btnAddOrUpdateBuilding(json);
-        }
+        btnAddOrUpdateBuilding(json);
     });
 
     function btnAddOrUpdateBuilding(json) {
@@ -293,7 +288,7 @@
             },
             error: function (result) {
                 console.log("error");
-                alert("Error");
+                alert(result.responseJSON.details);
             }
         });
     }
