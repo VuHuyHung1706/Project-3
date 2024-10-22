@@ -4,8 +4,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.javaweb.entity.BuildingEntity;
-import com.javaweb.enums.buildingType;
-import com.javaweb.enums.districtCode;
+import com.javaweb.enums.DistrictCode;
 import com.javaweb.model.response.BuildingSearchResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,7 @@ public class BuildingConverter {
     public BuildingSearchResponse convertToBuildingSearchResponse(BuildingEntity item) {
         BuildingSearchResponse building = modelMapper.map(item, BuildingSearchResponse.class);
 
-        Map<String, String> districts = districtCode.type();
+        Map<String, String> districts = DistrictCode.type();
         String district = districts.get(item.getDistrict());
         String address = "";
         if (!item.getStreet().equals("")) {

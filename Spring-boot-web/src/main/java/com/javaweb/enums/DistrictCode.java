@@ -3,7 +3,7 @@ package com.javaweb.enums;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public enum districtCode {
+public enum DistrictCode {
     QUAN_1("Quận 1"),
     QUAN_2("Quận 2"),
     QUAN_3("Quận 3"),
@@ -25,7 +25,7 @@ public enum districtCode {
 
     private final String districtName;
 
-    districtCode(String districtName) {
+    DistrictCode(String districtName) {
         this.districtName = districtName;
     }
 
@@ -35,7 +35,7 @@ public enum districtCode {
 
     public static Map<String, String> type(){
         Map<String, String> listType = new LinkedHashMap<>();
-        for (districtCode districtCode : districtCode.values()){
+        for (DistrictCode districtCode : DistrictCode.values()){
             listType.put(districtCode.name(), districtCode.getDistrictName());
         }
         return listType;

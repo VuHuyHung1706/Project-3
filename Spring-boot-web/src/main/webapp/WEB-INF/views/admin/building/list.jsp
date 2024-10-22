@@ -501,6 +501,7 @@
                 success: function (result) {
                     console.log("success")
                     alert("Xóa thành công");
+                    window.location.href = "/admin/building-list";
                 },
                 error: function (result) {
                     console.log("failed");

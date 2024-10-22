@@ -2,6 +2,7 @@ package com.javaweb.service.impl;
 
 import com.javaweb.converter.BuildingConverter;
 import com.javaweb.entity.BuildingEntity;
+import com.javaweb.entity.RentAreaEntity;
 import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.request.BuildingSearchRequest;
 import com.javaweb.model.response.BuildingSearchResponse;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -64,12 +66,31 @@ public class BuildingServiceImpl implements BuildingService {
         buildingEntity = modelMapper.map(building, BuildingEntity.class);
 
         buildingRepository.save(buildingEntity);
+        rentAreaRepository.deleteAllByBuilding(buildingEntity);
+        if (building.getRentArea() != "") {
+            List<String> rentAreas = Arrays.stream(building.getRentArea().split(","))
+                    .map(String::trim)
+                    .collect(Collectors.toList());
+            for (String rentArea : rentAreas) {
+                RentAreaEntity rentAreaEntity = new RentAreaEntity();
+                rentAreaEntity.setValue(Long.parseLong(rentArea));
+                rentAreaEntity.setBuilding(buildingEntity);
+                rentAreaRepository.save(rentAreaEntity);;
+            }
+        }
     }
 
     @Override
     public BuildingDTO findById(Long id) {
-        BuildingEntity buildingEntity = buildingRepository.getOne(id);
+        BuildingEntity buildingEntity = buildingRepository.findById(id).get();
         BuildingDTO buildingDTO = modelMapper.map(buildingEntity, BuildingDTO.class);
+        List<RentAreaEntity> rentAreaEntities = rentAreaRepository.findAllByBuilding(buildingEntity);
+        String rentArea = rentAreaEntities.stream()
+                .map(rentAreaEntity -> rentAreaEntity.getValue().toString())
+                .collect(Collectors.joining(", "));
+        buildingDTO.setRentArea(rentArea);
+        String type = buildingEntity.getType().substring(1, buildingEntity.getType().length() - 1);
+        buildingDTO.setTypeCode(Arrays.asList(type.split(", ")));
         return buildingDTO;
     }
 

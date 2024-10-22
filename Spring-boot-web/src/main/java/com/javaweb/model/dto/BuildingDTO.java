@@ -29,8 +29,8 @@ public class BuildingDTO extends AbstractDTO{
     private Long rentPrice;
     private String rentPriceDescription;
 
-    @Min(value = 0, message = "Rent ara must be greater than 0")
-    private Long rentArea;
+    @NotBlank(message = "Rent area can not be blank")
+    private String rentArea;
     private String serviceFee;
 
     private String carFee;
