@@ -2,6 +2,7 @@ package com.javaweb.model.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.*;
 import java.util.List;
@@ -51,4 +52,17 @@ public class BuildingDTO extends AbstractDTO{
 
     @NotEmpty(message = "Type code can not be empty")
     private List<String> typeCode;
+
+    private String image;
+
+    private String imageBase64;
+
+    private String imageName;
+
+    public String getImageBase64() {
+        if (imageBase64 != null) {
+            return imageBase64.split(",")[1];
+        }
+        return null;
+    }
 }

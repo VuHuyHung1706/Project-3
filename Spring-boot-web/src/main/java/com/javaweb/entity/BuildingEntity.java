@@ -98,6 +98,9 @@ public class BuildingEntity extends BaseEntity {
     @Column(name = "type")
     private String type;
 
+    @Column(name = "avatar")
+    private String image;
+
     @OneToMany(mappedBy = "building")
     private List<RentAreaEntity> areaEntities = new ArrayList<>();
 

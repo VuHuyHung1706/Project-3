@@ -11,6 +11,7 @@ import javax.persistence.Query;
 
 import com.javaweb.entity.BuildingEntity;
 import com.javaweb.model.request.BuildingSearchRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import com.javaweb.repository.custom.BuildingRepositoryCustom;
@@ -22,7 +23,7 @@ public class BuildingRepositoryCustomImpl implements BuildingRepositoryCustom {
     private EntityManager entityManager;
 
     @Override
-    public List<BuildingEntity> findAll(BuildingSearchRequest buildingSearchRequest) {
+    public List<BuildingEntity> findAll(BuildingSearchRequest buildingSearchRequest, Pageable pageable) {
         StringBuilder sql = new StringBuilder("SELECT DISTINCT building.* FROM building");
         StringBuilder join = new StringBuilder("");
         StringBuilder where = new StringBuilder(" WHERE 1=1");
@@ -133,5 +134,11 @@ public class BuildingRepositoryCustomImpl implements BuildingRepositoryCustom {
             }
         }
 
+    }
+
+    @Override
+    public int countTotalItems(BuildingSearchRequest buildingSearchRequest, Pageable pageable) {
+        List<BuildingEntity> buildingEntities = findAll(buildingSearchRequest, pageable);
+        return buildingEntities.size();
     }
 }

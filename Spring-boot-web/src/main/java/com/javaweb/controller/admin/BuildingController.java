@@ -6,14 +6,17 @@ import com.javaweb.enums.BuildingType;
 import com.javaweb.enums.DistrictCode;
 import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.request.BuildingSearchRequest;
+import com.javaweb.model.response.BuildingSearchResponse;
 import com.javaweb.service.BuildingService;
 import com.javaweb.service.IUserService;
+import com.javaweb.utils.DisplayTagUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController(value="buildingControllerOfAdmin")
 public class BuildingController {
@@ -25,12 +28,16 @@ public class BuildingController {
     private BuildingService buildingService;
 
     @GetMapping("/admin/building-list")
-    private ModelAndView buildingList(@ModelAttribute(name = "modelSearch") BuildingSearchRequest params){
+    private ModelAndView buildingList(@ModelAttribute(name = "modelSearch") BuildingSearchRequest params, HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView("admin/building/list");
         modelAndView.addObject("district", DistrictCode.type());
         modelAndView.addObject("rentType", BuildingType.type());
         modelAndView.addObject("staffs", userService.listStaff());
-        modelAndView.addObject("listBuilding", buildingService.findAll(params));
+        DisplayTagUtils.of(request, params);
+        List<BuildingSearchResponse> buildings = buildingService.findAll(params, PageRequest.of(params.getPage() - 1, params.getMaxPageItems()));
+        params.setListResult(buildings);
+        params.setTotalItems(buildingService.countTotalItems(params, null));
+        modelAndView.addObject("listBuilding", params);
         return modelAndView;
     }
 
