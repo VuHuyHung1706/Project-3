@@ -101,9 +101,9 @@ public class BuildingEntity extends BaseEntity {
     @Column(name = "avatar")
     private String image;
 
-    @OneToMany(mappedBy = "building")
+    @OneToMany(mappedBy = "building", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RentAreaEntity> areaEntities = new ArrayList<>();
 
-    @OneToMany(mappedBy = "building")
-    private List<AssignmentBuildingEntity> assignmentBuildings = new ArrayList<>();
+    @ManyToMany(mappedBy = "buildings", fetch = FetchType.LAZY)
+    private List<UserEntity> staffs = new ArrayList<>();
 }

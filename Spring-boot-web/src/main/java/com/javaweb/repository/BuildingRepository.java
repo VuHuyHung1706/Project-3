@@ -15,4 +15,5 @@ public interface BuildingRepository extends JpaRepository<BuildingEntity, Long>,
     Optional<BuildingEntity> findById(Long id);
     BuildingEntity getOne(Long id);
     void deleteByIdIn(Long[] ids);
+    void deleteById(Long id);
 }

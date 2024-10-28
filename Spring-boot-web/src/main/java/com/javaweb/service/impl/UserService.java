@@ -190,7 +190,7 @@ public class UserService implements IUserService {
     @Override
     public List<StaffResponseDTO> getStaffs(Long id) {
         List<UserEntity> userEntities = userRepository.findByStatusAndRoles_Code(1, "STAFF");
-        List<UserEntity> assignedStaffs = userRepository.findByStatusAndRoles_CodeAndAssignmentBuildings_Building_Id(1, "STAFF", id);
+        List<UserEntity> assignedStaffs = userRepository.findByStatusAndRoles_CodeAndBuildings_Id(1, "STAFF", id);
         List<StaffResponseDTO> staffs = new ArrayList<>();
         for (UserEntity userEntity : userEntities) {
             StaffResponseDTO staff = new StaffResponseDTO();

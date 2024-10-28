@@ -3,19 +3,20 @@ package com.javaweb.service.impl;
 import com.javaweb.converter.BuildingConverter;
 import com.javaweb.entity.BuildingEntity;
 import com.javaweb.entity.RentAreaEntity;
+import com.javaweb.entity.UserEntity;
+import com.javaweb.model.dto.AssignmentBuildingDTO;
 import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.request.BuildingSearchRequest;
 import com.javaweb.model.response.BuildingSearchResponse;
-import com.javaweb.repository.AssignmentBuildingRepository;
 import com.javaweb.repository.BuildingRepository;
 import com.javaweb.repository.RentAreaRepository;
+import com.javaweb.repository.UserRepository;
 import com.javaweb.service.BuildingService;
 
 import com.javaweb.utils.UploadFileUtils;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -37,9 +38,6 @@ public class BuildingServiceImpl implements BuildingService {
     private RentAreaRepository rentAreaRepository;
 
     @Autowired
-    private AssignmentBuildingRepository assignmentBuildingRepository;
-
-    @Autowired
     private BuildingConverter buildingConverter;
 
     @Autowired
@@ -47,6 +45,8 @@ public class BuildingServiceImpl implements BuildingService {
 
     @Autowired
     private UploadFileUtils uploadFileUtils;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public List<BuildingSearchResponse> findAll(BuildingSearchRequest buildingSearchRequest, Pageable pageable) {
@@ -104,11 +104,13 @@ public class BuildingServiceImpl implements BuildingService {
 
     @Override
     public void deleteBuilding(Long[] ids) {
-		List<BuildingEntity> buildingEntities = buildingRepository.findByIdIn(ids);
-		rentAreaRepository.deleteAllByBuildingIn(buildingEntities);
-        assignmentBuildingRepository.deleteAllByBuildingIn(buildingEntities);
-        buildingRepository.deleteByIdIn(ids);
-
+        for(Long id : ids) {
+        	BuildingEntity buildingEntity = buildingRepository.findById(id).get();
+            for (UserEntity user : buildingEntity.getStaffs()) {
+                user.getBuildings().remove(buildingEntity);
+            }
+        	buildingRepository.delete(buildingEntity);
+        }
     }
 
     @Override
@@ -131,5 +133,4 @@ public class BuildingServiceImpl implements BuildingService {
             buildingEntity.setImage(path);
         }
     }
-
 }
