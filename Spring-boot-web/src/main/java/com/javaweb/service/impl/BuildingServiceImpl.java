@@ -73,19 +73,22 @@ public class BuildingServiceImpl implements BuildingService {
         }
         buildingEntity = modelMapper.map(building, BuildingEntity.class);
         saveThumbnail(building, buildingEntity);
-        buildingRepository.save(buildingEntity);
-        rentAreaRepository.deleteAllByBuilding(buildingEntity);
+
         if (building.getRentArea() != "") {
             List<String> rentAreas = Arrays.stream(building.getRentArea().split(","))
                     .map(String::trim)
                     .collect(Collectors.toList());
+            List<RentAreaEntity> rentAreaEntities = new ArrayList<>();
             for (String rentArea : rentAreas) {
                 RentAreaEntity rentAreaEntity = new RentAreaEntity();
                 rentAreaEntity.setValue(Long.parseLong(rentArea));
                 rentAreaEntity.setBuilding(buildingEntity);
-                rentAreaRepository.save(rentAreaEntity);;
+                rentAreaEntities.add(rentAreaEntity);
             }
+            buildingEntity.setAreaEntities(rentAreaEntities);
         }
+
+        buildingRepository.save(buildingEntity);
     }
 
     @Override
@@ -104,13 +107,14 @@ public class BuildingServiceImpl implements BuildingService {
 
     @Override
     public void deleteBuilding(Long[] ids) {
-        for(Long id : ids) {
-        	BuildingEntity buildingEntity = buildingRepository.findById(id).get();
+        List<BuildingEntity> buildingEntities = buildingRepository.findByIdIn(ids);
+        for (BuildingEntity buildingEntity : buildingEntities) {
             for (UserEntity user : buildingEntity.getStaffs()) {
                 user.getBuildings().remove(buildingEntity);
             }
-        	buildingRepository.delete(buildingEntity);
+
         }
+        buildingRepository.deleteByIdIn(ids);
     }
 
     @Override

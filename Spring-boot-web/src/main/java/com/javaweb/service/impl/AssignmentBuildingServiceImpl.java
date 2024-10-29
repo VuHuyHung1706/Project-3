@@ -30,13 +30,12 @@ public class AssignmentBuildingServiceImpl implements AssignmentBuildingService 
             user.getBuildings().remove(buildingEntity);
         }
 
-        buildingEntity.getStaffs().clear();
         List<UserEntity> staffs = userRepository.findByIdIn(assignmentBuildingDTO.getStaffIds());
         buildingEntity.setStaffs(staffs);
 
-        for (UserEntity user : staffs) {
-            user.getBuildings().add(buildingEntity);
-        }
+//        for (UserEntity user : staffs) {
+//            user.getBuildings().add(buildingEntity);
+//        }
 
         buildingRepository.save(buildingEntity);
     }
