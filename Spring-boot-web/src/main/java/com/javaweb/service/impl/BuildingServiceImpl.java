@@ -105,17 +105,16 @@ public class BuildingServiceImpl implements BuildingService {
         return buildingDTO;
     }
 
-    @Override
     public void deleteBuilding(Long[] ids) {
-        List<BuildingEntity> buildingEntities = buildingRepository.findByIdIn(ids);
-        for (BuildingEntity buildingEntity : buildingEntities) {
-            for (UserEntity user : buildingEntity.getStaffs()) {
-                user.getBuildings().remove(buildingEntity);
-            }
+        List<BuildingEntity> buildings = buildingRepository.findByIdIn(ids);
 
+        for (BuildingEntity building : buildings) {
+            building.getStaffs().clear();
         }
-        buildingRepository.deleteByIdIn(ids);
+
+        buildingRepository.deleteAll(buildings);
     }
+
 
     @Override
     public int countTotalItems(BuildingSearchRequest buildingSearchRequest, Pageable pageable) {

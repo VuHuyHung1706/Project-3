@@ -26,16 +26,8 @@ public class AssignmentBuildingServiceImpl implements AssignmentBuildingService 
     public void updateAssignmentBuilding(AssignmentBuildingDTO assignmentBuildingDTO) {
         BuildingEntity buildingEntity = buildingRepository.findById(assignmentBuildingDTO.getBuildingId()).get();
 
-        for (UserEntity user : buildingEntity.getStaffs()) {
-            user.getBuildings().remove(buildingEntity);
-        }
-
         List<UserEntity> staffs = userRepository.findByIdIn(assignmentBuildingDTO.getStaffIds());
         buildingEntity.setStaffs(staffs);
-
-        for (UserEntity user : staffs) {
-            user.getBuildings().add(buildingEntity);
-        }
 
         buildingRepository.save(buildingEntity);
     }
