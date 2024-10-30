@@ -71,6 +71,7 @@ public class BuildingServiceImpl implements BuildingService {
         if (building.getId() != null) {
             buildingEntity.setId(building.getId());
         }
+
         buildingEntity = modelMapper.map(building, BuildingEntity.class);
         saveThumbnail(building, buildingEntity);
 
@@ -87,6 +88,9 @@ public class BuildingServiceImpl implements BuildingService {
             }
             buildingEntity.setAreaEntities(rentAreaEntities);
         }
+
+        BuildingEntity buildingOld = buildingRepository.findById(building.getId()).get();
+        buildingEntity.setStaffs(buildingOld.getStaffs());
 
         buildingRepository.save(buildingEntity);
     }
@@ -107,11 +111,6 @@ public class BuildingServiceImpl implements BuildingService {
 
     public void deleteBuilding(Long[] ids) {
         List<BuildingEntity> buildings = buildingRepository.findByIdIn(ids);
-
-        for (BuildingEntity building : buildings) {
-            building.getStaffs().clear();
-        }
-
         buildingRepository.deleteAll(buildings);
     }
 
