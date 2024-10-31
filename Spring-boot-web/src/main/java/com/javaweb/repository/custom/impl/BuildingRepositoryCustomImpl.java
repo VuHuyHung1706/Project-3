@@ -107,31 +107,16 @@ public class BuildingRepositoryCustomImpl implements BuildingRepositoryCustom {
             }
         }
 
-//		if (typeCode != null && !typeCode.isEmpty()) {
-//			StringBuilder temp = new StringBuilder("");
-//			for (int i = 0; i < typeCode.size(); i++) {
-//				if (!typeCode.get(i).equals("") && typeCode.get(i) != null) {
-//					temp.append("'").append(typeCode.get(i)).append("'");
-//					if (i != typeCode.size() - 1) {
-//						temp.append(", ");
-//					}
-//				}
-//			}
-//
-//			if (!temp.equals("")) {
-//				where.append(" AND renttype.code IN (" + temp + ")");
-//			}
-//		}
         List<String> typeCode = buildingSearchRequest.getTypeCode();
         if (typeCode != null && !typeCode.isEmpty()) {
-//            String temp = typeCode.stream().map(i -> "'" + i + "'").collect(Collectors.joining(","));
-//
-//            if (!temp.equals("")) {
-//                where.append(" AND building.type IN (" + temp + ")");
-//            }
-            for (String code : typeCode) {
-                where.append(" AND building.type LIKE '%" + code + "%'");
+            where.append(" AND ( ");
+            for (int i = 0; i < typeCode.size(); i++) {
+                if (i > 0) {
+                    where.append(" OR ");
+                }
+                where.append("building.type LIKE '%" + typeCode.get(i) + "%'");
             }
+            where.append(" ) ");
         }
 
     }

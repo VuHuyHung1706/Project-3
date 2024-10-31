@@ -68,9 +68,6 @@ public class BuildingServiceImpl implements BuildingService {
     @Override
     public void createBuilding(BuildingDTO building) {
         BuildingEntity buildingEntity = new BuildingEntity();
-        if (building.getId() != null) {
-            buildingEntity.setId(building.getId());
-        }
 
         buildingEntity = modelMapper.map(building, BuildingEntity.class);
         saveThumbnail(building, buildingEntity);
@@ -88,10 +85,11 @@ public class BuildingServiceImpl implements BuildingService {
             }
             buildingEntity.setAreaEntities(rentAreaEntities);
         }
-
-        BuildingEntity buildingOld = buildingRepository.findById(building.getId()).get();
-        buildingEntity.setStaffs(buildingOld.getStaffs());
-
+        if (building.getId() != null) {
+            buildingEntity.setId(building.getId());
+            BuildingEntity buildingOld = buildingRepository.findById(building.getId()).get();
+            buildingEntity.setStaffs(buildingOld.getStaffs());
+        }
         buildingRepository.save(buildingEntity);
     }
 
