@@ -31,7 +31,7 @@ public class BuildingAPI {
     private AssignmentBuildingService assignmentBuildingService;
 
     @PostMapping
-    public ResponseEntity<?> createOrrUpdataBuilding(@Valid @RequestBody BuildingDTO buildingDTO, BindingResult result){
+    public ResponseEntity<?> createOrUpdateBuilding(@Valid @RequestBody BuildingDTO buildingDTO, BindingResult result){
         try {
             if (result.hasErrors()) {
                 List<String> errorsMessages = result.getFieldErrors().stream()

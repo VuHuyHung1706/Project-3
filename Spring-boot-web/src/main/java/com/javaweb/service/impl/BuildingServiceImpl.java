@@ -89,6 +89,10 @@ public class BuildingServiceImpl implements BuildingService {
             buildingEntity.setId(building.getId());
             BuildingEntity buildingOld = buildingRepository.findById(building.getId()).get();
             buildingEntity.setStaffs(buildingOld.getStaffs());
+            if (building.getImageBase64() == null) {
+                buildingEntity.setImage(buildingOld.getImage());
+            }
+
         }
         buildingRepository.save(buildingEntity);
     }
@@ -104,6 +108,7 @@ public class BuildingServiceImpl implements BuildingService {
         buildingDTO.setRentArea(rentArea);
         String type = buildingEntity.getType().substring(1, buildingEntity.getType().length() - 1);
         buildingDTO.setTypeCode(Arrays.asList(type.split(", ")));
+
         return buildingDTO;
     }
 
