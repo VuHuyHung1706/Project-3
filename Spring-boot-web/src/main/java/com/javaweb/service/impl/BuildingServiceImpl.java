@@ -11,6 +11,7 @@ import com.javaweb.model.response.BuildingSearchResponse;
 import com.javaweb.repository.BuildingRepository;
 import com.javaweb.repository.RentAreaRepository;
 import com.javaweb.repository.UserRepository;
+import com.javaweb.security.utils.SecurityUtils;
 import com.javaweb.service.BuildingService;
 
 import com.javaweb.utils.UploadFileUtils;
@@ -137,5 +138,17 @@ public class BuildingServiceImpl implements BuildingService {
             uploadFileUtils.writeOrUpdate(path, bytes);
             buildingEntity.setImage(path);
         }
+    }
+
+    @Override
+    public boolean accessEditBuilding(Long id) {
+        BuildingEntity buildingEntity = buildingRepository.findById(id).get();
+        if (SecurityUtils.getAuthorities().contains("ROLE_STAFF")) {
+            UserEntity userEntity = userRepository.findById(SecurityUtils.getPrincipal().getId()).get();
+            if (!buildingEntity.getStaffs().contains(userEntity)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -47,7 +47,7 @@ public class BuildingDTO extends AbstractDTO{
     private String note;
     private String managerName;
 
-    @Pattern(regexp = "^(0[0-9]{9})?$", message = "Manager phone must be 10 digits")
+    @Pattern(regexp = "^(0[0-9]{9})?$", message = "Manager phone must be 10 digits and start with 0")
     private String managerPhone;
 
     @NotEmpty(message = "Type code can not be empty")

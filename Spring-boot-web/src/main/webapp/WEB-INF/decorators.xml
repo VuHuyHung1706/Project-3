@@ -20,4 +20,12 @@
     <decorator name="login" page="login.jsp">
         <pattern>/login</pattern>
     </decorator>
+
+    <decorator name="signup" page="signup.jsp">
+        <pattern>/signup</pattern>
+    </decorator>
+
+    <decorator name="error-404" page="error-404.jsp">
+        <pattern>/error-404</pattern>
+    </decorator>
 </decorators>

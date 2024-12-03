@@ -17,4 +17,5 @@ public interface BuildingService {
     void deleteBuilding(Long[] ids);
     int countTotalItems(BuildingSearchRequest buildingSearchRequest, Pageable pageable);
     void saveThumbnail(BuildingDTO buildingDTO, BuildingEntity buildingEntity);
+    boolean accessEditBuilding(Long id);
 }

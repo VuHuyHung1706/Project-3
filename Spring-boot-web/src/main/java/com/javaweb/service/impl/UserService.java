@@ -203,4 +203,36 @@ public class UserService implements IUserService {
         }
         return staffs;
     }
+
+    @Override
+    public List<StaffResponseDTO> getStaffCustomer(Long id) {
+        List<UserEntity> userEntities = userRepository.findByStatusAndRoles_Code(1, "STAFF");
+        List<UserEntity> assignedStaffs = userRepository.findByStatusAndRoles_CodeAndCustomers_Id(1, "STAFF", id);
+        List<StaffResponseDTO> staffs = new ArrayList<>();
+        for (UserEntity userEntity : userEntities) {
+            StaffResponseDTO staff = new StaffResponseDTO();
+            staff.setStaffId(userEntity.getId());
+            staff.setUserName(userEntity.getUserName());
+            if (assignedStaffs.contains(userEntity)) {
+                staff.setChecked("checked");
+            }
+            staffs.add(staff);
+        }
+        return staffs;
+    }
+
+    @Override
+    public void addUser(UserDTO userDTO) {
+        UserEntity userEntity = userConverter.convertToEntity(userDTO);
+        userEntity.setStatus(1);
+        userEntity.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        RoleEntity role = roleRepository.findOneByCode(userDTO.getRoleCode());
+        userEntity.setRoles(Stream.of(role).collect(Collectors.toList()));
+        userRepository.save(userEntity);
+    }
+
+    @Override
+    public boolean existsByUserName(String username) {
+        return userRepository.existsByUserName(username);
+    }
 }

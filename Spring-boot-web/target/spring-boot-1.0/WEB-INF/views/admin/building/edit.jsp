@@ -26,19 +26,13 @@
             </div>
 
             <div class="page-content">
-
-                <div class="page-header">
-                    <h1>
-                        Dashboard
-                        <small>
-                            <i class="ace-icon fa fa-angle-double-right"></i>
-                            overview &amp; stats
-                        </small>
-                    </h1>
-                </div><!-- /.page-header -->
-
+                <c:if test="${not empty buildingEdit.id}">
+                    <h1 style="color: #2a91d8">Sửa thông tin tòa nhà</h1>
+                </c:if>
+                <c:if test="${empty buildingEdit.id}">
+                    <h1 style="color: #2a91d8">Thêm thông tin tòa nhà</h1>
+                </c:if>
             </div><!-- /.page-content -->
-
             <div class="row">
                 <div class="col-xs-12">
                     <form:form method="GET" id="form-edit" modelAttribute="buildingEdit">
@@ -307,6 +301,7 @@
             success: function (result) {
                 console.log("success");
                 alert("Success");
+                window.location.href = "/admin/building-list";
             },
             error: function (result) {
                 console.log("error");

@@ -26,4 +26,7 @@ public interface IUserService {
     List<UserDTO> getAllUsers(Pageable pageable);
     int countTotalItems();
     List<StaffResponseDTO> getStaffs(Long id);
+    List<StaffResponseDTO> getStaffCustomer(Long id);
+    void addUser(UserDTO userDTO);
+    boolean existsByUserName(String username);
 }

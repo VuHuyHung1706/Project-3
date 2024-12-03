@@ -188,15 +188,17 @@
                                                     <form:input path="managerPhone" class="form-control"/>
                                                 </div>
 
-                                                <div class="col-xs-4">
-                                                    <div>
-                                                        <label >Nhân viên phụ trách</label>
-                                                        <form:select path="staffId" class="form-control">
-                                                            <form:option value="" label="--Chọn nhân viên--"/>
-                                                            <form:options items="${staffs}"/>
-                                                        </form:select>
+                                                <security:authorize access="hasRole('MANAGER')">
+                                                    <div class="col-xs-4">
+                                                        <div>
+                                                            <label >Nhân viên phụ trách</label>
+                                                            <form:select path="staffId" class="form-control">
+                                                                <form:option value="" label="--Chọn nhân viên--"/>
+                                                                <form:options items="${staffs}"/>
+                                                            </form:select>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                </security:authorize>
                                             </div>
                                         </div>
 
@@ -245,139 +247,30 @@
                                         <path d="M5 21v-16a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v16" /></svg>
                                 </button>
                             </a>
-                            <button class="btn btn-app btn-danger btn-sm" title="Xóa tòa nhà" id="btnDeleteBuildings">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                     stroke-linejoin="round"
-                                     class="icon icon-tabler icons-tabler-outline icon-tabler-building">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <path d="M3 21l18 0" />
-                                    <path d="M9 8l1 0" />
-                                    <path d="M9 12l1 0" />
-                                    <path d="M9 16l1 0" />
-                                    <path d="M14 8l1 0" />
-                                    <path d="M14 12l1 0" />
-                                    <path d="M14 16l1 0" />
-                                    <path d="M5 21v-16a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v16" /></svg>
-                            </button>
+
+                            <security:authorize access="hasRole('MANAGER')">
+                                <button class="btn btn-app btn-danger btn-sm" title="Xóa tòa nhà" id="btnDeleteBuildings">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                         stroke-linejoin="round"
+                                         class="icon icon-tabler icons-tabler-outline icon-tabler-building">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M3 21l18 0" />
+                                        <path d="M9 8l1 0" />
+                                        <path d="M9 12l1 0" />
+                                        <path d="M9 16l1 0" />
+                                        <path d="M14 8l1 0" />
+                                        <path d="M14 12l1 0" />
+                                        <path d="M14 16l1 0" />
+                                        <path d="M5 21v-16a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v16" /></svg>
+                                </button>
+                            </security:authorize>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="hr hr-25 dotted hr-double"></div>
-
-<%--            <div class="row">--%>
-<%--                <div class="col-xs-12">--%>
-<%--                    <table id="listBuilding" class="table table-striped table-bordered table-hover">--%>
-<%--                        <thead>--%>
-<%--                        <tr>--%>
-<%--                            <th></th>--%>
-<%--                            <th class="center">Tên tòa nhà</th>--%>
-<%--                            <th class="center">Địa chỉ</th>--%>
-<%--                            <th class="center">Số tầng hầm</th>--%>
-<%--                            <th class="center">Tên quản lý</th>--%>
-<%--                            <th class="center">SĐT quản lý</th>--%>
-<%--                            <th class="center">Diện tích sàn</th>--%>
-<%--                            <th class="center">Diện tích trống</th>--%>
-<%--                            <th class="center">Diện tích thuê</th>--%>
-<%--                            <th class="center">Giá thuê</th>--%>
-<%--                            <th class="center">Phí dịch vụ</th>--%>
-<%--                            <th class="center">Phí môi giới</th>--%>
-<%--                            <th class="center">Thao tác</th>--%>
-<%--                        </tr>--%>
-<%--                        </thead>--%>
-
-<%--                        <tbody>--%>
-<%--                            <c:forEach var="item" items="${listBuilding}">--%>
-<%--                                <tr>--%>
-<%--                                    <td class="center">--%>
-<%--                                        <label class="pos-rel">--%>
-<%--                                            <input type="checkbox" class="ace" value="${item.id}">--%>
-<%--                                            <span class="lbl"></span>--%>
-<%--                                        </label>--%>
-<%--                                    </td>--%>
-
-<%--                                    <td>--%>
-<%--                                        <a>${item.name}</a>--%>
-<%--                                    </td>--%>
-<%--                                    <td>${item.address}</td>--%>
-<%--                                    <td>${item.numberOfBasement}</td>--%>
-<%--                                    <td>${item.managerName}</td>--%>
-<%--                                    <td>${item.managerPhone}</td>--%>
-<%--                                    <td>${item.floorArea}</td>--%>
-<%--                                    <td>${item.emptyArea}</td>--%>
-<%--                                    <td>${item.rentArea}</td>--%>
-<%--                                    <td>${item.rentPrice}</td>--%>
-<%--                                    <td>${item.serviceFee}</td>--%>
-<%--                                    <td>${item.brokeragefee}</td>--%>
-<%--                                    <td>--%>
-<%--                                        <div class="hidden-sm hidden-xs btn-group">--%>
-<%--                                            <button class="btn btn-xs btn-success" title="Giao tòa nhà"--%>
-<%--                                                    onclick="assingmentBuilding(${item.id})">--%>
-<%--                                                <i class="ace-icon fa fa-check bigger-120"></i>--%>
-<%--                                            </button>--%>
-<%--                                            <a href="/admin/building-edit-${item.id}">--%>
-<%--                                                <button class="btn btn-xs btn-info">--%>
-<%--                                                <i class="ace-icon fa fa-pencil bigger-120"></i>--%>
-<%--                                            </button>--%>
-<%--                                            </a>--%>
-
-<%--                                            <button class="btn btn-xs btn-danger" title="Xóa tòa nhà" onclick="deletebuilding(${item.id})">--%>
-<%--                                                <i class="ace-icon fa fa-trash-o bigger-120"></i>--%>
-<%--                                            </button>--%>
-
-<%--                                            <button class="btn btn-xs btn-warning">--%>
-<%--                                                <i class="ace-icon fa fa-flag bigger-120"></i>--%>
-<%--                                            </button>--%>
-<%--                                        </div>--%>
-
-<%--                                        <div class="hidden-md hidden-lg">--%>
-<%--                                            <div class="inline pos-rel">--%>
-<%--                                                <button class="btn btn-minier btn-primary dropdown-toggle"--%>
-<%--                                                        data-toggle="dropdown" data-position="auto">--%>
-<%--                                                    <i class="ace-icon fa fa-cog icon-only bigger-110"></i>--%>
-<%--                                                </button>--%>
-
-<%--                                                <ul--%>
-<%--                                                        class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">--%>
-<%--                                                    <li>--%>
-<%--                                                        <a href="#" class="tooltip-info" data-rel="tooltip" title=""--%>
-<%--                                                           data-original-title="View">--%>
-<%--                                                                    <span class="blue">--%>
-<%--                                                                        <i class="ace-icon fa fa-search-plus bigger-120"></i>--%>
-<%--                                                                    </span>--%>
-<%--                                                        </a>--%>
-<%--                                                    </li>--%>
-
-<%--                                                    <li>--%>
-<%--                                                        <a href="#" class="tooltip-success" data-rel="tooltip" title=""--%>
-<%--                                                           data-original-title="Edit">--%>
-<%--                                                                    <span class="green">--%>
-<%--                                                                        <i--%>
-<%--                                                                                class="ace-icon fa fa-pencil-square-o bigger-120"></i>--%>
-<%--                                                                    </span>--%>
-<%--                                                        </a>--%>
-<%--                                                    </li>--%>
-
-<%--                                                    <li>--%>
-<%--                                                        <a href="#" class="tooltip-error" data-rel="tooltip" title=""--%>
-<%--                                                           data-original-title="Delete">--%>
-<%--                                                                    <span class="red">--%>
-<%--                                                                        <i class="ace-icon fa fa-trash-o bigger-120"></i>--%>
-<%--                                                                    </span>--%>
-<%--                                                        </a>--%>
-<%--                                                    </li>--%>
-<%--                                                </ul>--%>
-<%--                                            </div>--%>
-<%--                                        </div>--%>
-<%--                                    </td>--%>
-<%--                                </tr>--%>
-<%--                            </c:forEach>--%>
-<%--                        </tbody>--%>
-<%--                    </table>--%>
-<%--                </div><!-- /.span -->--%>
-<%--            </div>--%>
 
             <div class="row">
                 <div class="col-xs-12">
@@ -400,6 +293,7 @@
                                                id="checkbox_${listBuilding.id}" class="check-box-element"/>
                                     </fieldset>
                                 </display:column>
+
                                 <display:column headerClass="text-left" property="name" title="Tên tòa nhà"/>
                                 <display:column headerClass="text-left" property="address" title="Địa chỉ"/>
                                 <display:column headerClass="text-left" property="numberOfBasement" title="Số tầng hầm"/>
@@ -413,23 +307,24 @@
                                 <display:column headerClass="text-left" property="brokeragefee" title="Phí môi giới"/>
                                 <display:column headerClass="text-left" title="Thao tác">
                                     <div class="hidden-sm hidden-xs btn-group">
-                                        <button class="btn btn-xs btn-success" title="Giao tòa nhà" type="button"
+                                        <security:authorize access="hasRole('MANAGER')">
+                                            <button class="btn btn-xs btn-success" title="Giao tòa nhà" type="button"
                                                 onclick="assingmentBuilding(${listBuilding.id})">
-                                            <i class="ace-icon fa fa-check bigger-120"></i>
-                                        </button>
+                                                <i class="ace-icon fa fa-check bigger-120"></i>
+                                            </button>
+                                        </security:authorize>
+
                                         <a href="/admin/building-edit-${listBuilding.id}">
                                             <button class="btn btn-xs btn-info" type="button">
                                                 <i class="ace-icon fa fa-pencil bigger-120"></i>
                                             </button>
                                         </a>
 
-                                        <button class="btn btn-xs btn-danger" title="Xóa tòa nhà" onclick="deletebuilding(${listBuilding.id})" type="button">
-                                            <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                                        </button>
-
-                                        <button class="btn btn-xs btn-warning" type="button">
-                                            <i class="ace-icon fa fa-flag bigger-120"></i>
-                                        </button>
+                                        <security:authorize access="hasRole('MANAGER')">
+                                            <button class="btn btn-xs btn-danger" title="Xóa tòa nhà" onclick="deletebuilding(${listBuilding.id})" type="button">
+                                                <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                            </button>
+                                        </security:authorize>
                                     </div>
                                 </display:column>
                             </display:table>

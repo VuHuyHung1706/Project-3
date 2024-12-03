@@ -2,12 +2,21 @@ package com.javaweb.api.admin;
 
 import com.javaweb.constant.SystemConstant;
 import com.javaweb.exception.MyException;
+import com.javaweb.model.dto.AssignmentBuildingDTO;
 import com.javaweb.model.dto.PasswordDTO;
 import com.javaweb.model.dto.UserDTO;
+import com.javaweb.model.response.ResponseDTO;
 import com.javaweb.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/user")
@@ -53,5 +62,20 @@ public class UserAPI {
             userService.delete(idList);
         }
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO) {
+        if (userService.existsByUserName(userDTO.getUserName())) {
+            ResponseDTO responseDTO = new ResponseDTO();
+            responseDTO.setMessage("Faided");
+            List<String> details = new ArrayList<>();
+            details.add("UserName đã tồn tại. Vui lòng chọn UserName khác.");
+            responseDTO.setDetails(details);
+            return ResponseEntity.badRequest().body(responseDTO);
+        }
+
+        userService.addUser(userDTO);
+        return ResponseEntity.ok("Success");
     }
 }

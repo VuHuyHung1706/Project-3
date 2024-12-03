@@ -7,6 +7,7 @@ import com.javaweb.enums.DistrictCode;
 import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.request.BuildingSearchRequest;
 import com.javaweb.model.response.BuildingSearchResponse;
+import com.javaweb.security.utils.SecurityUtils;
 import com.javaweb.service.BuildingService;
 import com.javaweb.service.IUserService;
 import com.javaweb.utils.DisplayTagUtils;
@@ -34,6 +35,10 @@ public class BuildingController {
         modelAndView.addObject("rentType", BuildingType.type());
         modelAndView.addObject("staffs", userService.listStaff());
         DisplayTagUtils.of(request, params);
+
+        if (SecurityUtils.getAuthorities().contains("ROLE_STAFF")) {
+            params.setStaffId(SecurityUtils.getPrincipal().getId());
+        }
         List<BuildingSearchResponse> buildings = buildingService.findAll(params, PageRequest.of(params.getPage() - 1, params.getMaxPageItems()));
         params.setListResult(buildings);
         params.setTotalItems(buildingService.countTotalItems(params, null));
@@ -52,6 +57,11 @@ public class BuildingController {
     @GetMapping("/admin/building-edit-{id}")
     private ModelAndView buildingEdit(@PathVariable Long id){
         ModelAndView modelAndView = new ModelAndView("admin/building/edit");
+
+        if (buildingService.accessEditBuilding(id)) {
+            return new ModelAndView("redirect:/error-404");
+        }
+
         modelAndView.addObject("district", DistrictCode.type());
         modelAndView.addObject("rentType", BuildingType.type());
         modelAndView.addObject("buildingEdit", buildingService.findById(id));
