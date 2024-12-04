@@ -256,7 +256,7 @@
             json[v.name] = v.value;
         });
 
-        json['status'] = "CHUA_XU_LY";
+        json['status'] = "Chưa xử lý";
         addContact(json);
     })
 
