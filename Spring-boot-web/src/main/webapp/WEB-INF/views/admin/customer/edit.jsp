@@ -79,7 +79,9 @@
                             <label class="col-xs-3">Tình trạng</label>
                             <div class="col-xs-9">
                                 <form:select path="status" class="form-control">
-                                    <form:options items="${status}"/>
+                                  <form:option value="Chưa xử lý" label="Chưa xử lý"/>
+                                  <form:option value="Đang xử lý" label="Đang xử lý"/>
+                                  <form:option value="Đã xử lý" label="Đã xử lý"/>
                                 </form:select>
                             </div>
                         </div>

@@ -35,6 +35,7 @@ public class TransactionServiceImpl implements TransactionService {
         TransactionEntity transactionEntity = modelMapper.map(transactionDTO, TransactionEntity.class);
         CustomerEntity customerEntity = customerRepository.findById(transactionDTO.getCustomerId()).get();
         transactionEntity.setCustomer(customerEntity);
+
         if (transactionDTO.getId() != null) {
             TransactionEntity oldTransaction = transactionRepository.findById(transactionDTO.getId()).get();
             transactionEntity.setCreatedBy(oldTransaction.getCreatedBy());

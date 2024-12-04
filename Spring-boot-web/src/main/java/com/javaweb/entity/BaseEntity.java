@@ -39,4 +39,10 @@ public class BaseEntity implements Serializable {
     @Column(name = "modifiedby")
     @LastModifiedBy
     private String modifiedBy;
+
+    @PrePersist
+    public void prePersist() {
+        this.modifiedBy = null;
+        this.modifiedDate = null;
+    }
 }

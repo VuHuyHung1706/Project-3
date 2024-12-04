@@ -1,8 +1,6 @@
 package com.javaweb.controller.admin;
 
-import com.javaweb.entity.CustomerEntity;
 import com.javaweb.entity.TransactionEntity;
-import com.javaweb.enums.Status;
 import com.javaweb.enums.TransactionType;
 import com.javaweb.model.dto.CustomerDTO;
 import com.javaweb.model.request.CustomerSearchRequest;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController(value="customerControllerOfAdmin")
@@ -37,7 +34,6 @@ public class CustomerController {
     private ModelAndView customerList(@ModelAttribute(name = "modelSearch") CustomerSearchRequest params, HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView("admin/customer/list");
         modelAndView.addObject("staffs", userService.listStaff());
-        modelAndView.addObject("status", Status.type());
 
         DisplayTagUtils.of(request, params);
 
@@ -55,7 +51,6 @@ public class CustomerController {
     @GetMapping("/admin/customer-edit")
     private ModelAndView customerEdit(@ModelAttribute(name = "customerEdit") CustomerDTO customerDTO){
         ModelAndView modelAndView = new ModelAndView("admin/customer/edit");
-        modelAndView.addObject("status", Status.type());
         return modelAndView;
     }
 
@@ -67,7 +62,6 @@ public class CustomerController {
             return new ModelAndView("redirect:/error-404");
         }
 
-        modelAndView.addObject("status", Status.type());
         modelAndView.addObject("transactionType", TransactionType.type());
         modelAndView.addObject("customerEdit", customerService.findById(id));
 

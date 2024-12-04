@@ -65,7 +65,7 @@
     <ul class="nav nav-list">
         <li class="">
             <a href="#" class="dropdown-toggle">
-                <i class="menu-icon fa fas fa-users"></i>
+                <i class="menu-icon fa fa-building"></i>
                 <span class="menu-text">Quản Lý Tòa Nhà</span>
             </a>
             <b class="arrow"></b>
@@ -106,7 +106,7 @@
     <ul class="nav nav-list">
         <li class="">
             <a href="#" class="dropdown-toggle">
-                <i class="menu-icon fa fas fa-users"></i>
+                <i class="menu-icon fa fa-user"></i>
                 <span class="menu-text">Quản Lý Khách Hàng</span>
             </a>
             <b class="arrow"></b>

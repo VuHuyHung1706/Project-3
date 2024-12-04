@@ -90,9 +90,12 @@
                           <div class="col-xs-4">
                             <div></div>
                             <label >Tình trạng</label>
-                            <form:select path="status" class="form-control">
-                                <form:options items="${status}"/>
-                            </form:select>
+                              <form:select path="status" class="form-control">
+                                <form:option value="" label="--Chọn tình trạng--"/>
+                                <form:option value="Chưa xử lý" label="Chưa xử lý"/>
+                                <form:option value="Đang xử lý" label="Đang xử lý"/>
+                                <form:option value="Đã xử lý" label="Đã xử lý"/>
+                              </form:select>
                           </div>
 
                           <security:authorize access="hasRole('MANAGER')">
